@@ -1,56 +1,133 @@
-import random
-import smtplib
+import requests
 import json
-from flask import Flask, request
+import json
+
+from flask import Flask,request,jsonify
+# from initiate import initiate_
+# from processorder import process_
+# from validatevpa import validate_
 
 app = Flask(__name__)
-@app.rout('/')
-def hello():
-    return 'Hello! World'
-@app.route('/emailverify', methods=['POST'])
-def email_verification():
-    res = request.get_json()
-    email_check1 = ["gmail", "hotmail", "yahoo", "outlook"]
-    email_check2 = [".com", ".in", ".org", ".edu", ".co.in"]
-    count = 0
-    receiver_email = res.get('email')
-    for domain in email_check1:
-        if domain in receiver_email:
-            count += 1
-    for site in email_check2:
-        if site in receiver_email:
-            count += 1
+global parameter
+@app.route('/')
+def home():
+    return 'Hello, World!'
 
-    if "@" not in receiver_email or count != 2:
-        responsed = {
-            "message": "invalid email id",
-            "code": 103
+@app.route('/create',methods=['POST'])
+def create():
+    data = request.get_json()
+
+    # Check if data is provided
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+
+    # Access individual parameters from the JSON
+    param4 = data.get('orderid')
+    param5 = data.get('amount')
+    param6 = data.get('customerdetails', {}).get('customer_id')
+    param7 = data.get('customerdetails', {}).get('customer_email')
+    param8 = data.get('customerdetails', {}).get('customer_phone')
+    param9 = data.get('customerdetails', {}).get('customer_name')
+        # Example processing
+    if not param4 or not param5 or not param6 or not param7 or not param8:
+        res = {
+            "message": "Missing parameters",
+            "Status Code": 400
         }
-        return json.dumps(responsed)
-
-    responsed = {
-        "message": "verified",
-        "code": 101
+        return json.dumps(res)
+    req = {
+        "message": True,
+        "orderid":"11234567"
     }
-    return json.dumps(responsed)
+    return json.dumps(req)
 
 
-@app.route('/sendotp', methods=['POST'])
-def otp():
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    new_otp = random.randint(100000, 999999)
-    res = request.get_json()
-    emailed = res.get('email')
-    password = "icrjkrmrzmfhkalr"
-    server.login("jatindua2001@gmail.com", password)
-    body = "Dear" + "," + "\n" + "\n" + "your OTP is " + str(new_otp) + "."
-    subject = "OTP verification using python"
-    message = f'subject:{subject}\n\n{body}'
-    server.sendmail("jatindua2001@gmail.com", emailed, message)
-    responsed = {
-        "message": "Otp has been Sent to your email id",
-        "code": 101
+@app.route('/Process',methods=['POST'])
+def process():
+    data = request.get_json()
+
+    # Check if data is provided
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+    message = {
+        "message": True
     }
-    server.quit()
-    return json.dumps(responsed)
+    # Access individual parameters from the JSON
+    param4 = data.get('orderid')
+    param5 = data.get('amount')
+    param6 = data.get('paymentmode')
+    param7 = data.get('upiid')
+    param8 = data.get('sessionid')
+
+    # Example processing
+    if not param4 or not param5 or not param6 or not param7:
+        res = {
+            "message": "Missing parameters",
+            "Status Code": 400
+        }
+        return json.dumps(res)
+
+    requests = {
+        "message": True,
+        "url": "ABC"
+    }
+    return json.dumps(requests)
+
+@app.route('/Validate',methods=['POST'])
+def validate():
+    data = request.get_json()
+
+    # Check if data is provided
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+    # Access individual parameters from the JSON
+    param4 = data.get('orderid')
+    param5 = data.get('upiid')
+    # Example processing
+    if not param4 or not param5:
+        return jsonify({"error": "Missing parameters"}), 400
+    res = {
+        "message": True
+    }
+    return json.dumps(res)
+
+@app.route('/Status',methods=['POST'])
+def status():
+    data = request.get_json()
+
+    # Check if data is provided
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+    # Access individual parameters from the JSON
+    param4 = data.get('orderid')
+    param5 = data.get('paymentid')
+    # Example processing
+    if not param4:
+        return jsonify({"error": "Missing parameters"}), 400
+    res = {
+        "payment_status": "Success"
+    }
+    return json.dumps(res)
+
+@app.route('/Cancel',methods=['POST'])
+def Cancel():
+    data = request.get_json()
+
+    # Check if data is provided
+    if not data:
+        return jsonify({"error": "No JSON data provided"}), 400
+
+    # Access individual parameters from the JSON
+    param4 = data.get('orderid')
+    param5 = data.get('paymentid')
+    # Example processing
+    if not param4:
+        return jsonify({"error": "Missing parameters"}), 400
+    res = {
+        "message": True
+    }
+    return json.dumps(res)
