@@ -4,8 +4,9 @@ import json
 from flask import Flask, request
 
 app = Flask(__name__)
-
-
+@app.rout('/')
+def hello():
+    return 'Hello! World'
 @app.route('/emailverify', methods=['POST'])
 def email_verification():
     res = request.get_json()
