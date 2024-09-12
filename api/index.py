@@ -35,6 +35,37 @@ def email_verification():
     }
     return json.dumps(responsed)
 
+@app.route('/verifyotp',methods=['POST'])
+def verify():
+    res=request.get_json()
+    email=res.get('email')
+    otp=res.get('otp')
+    responsed = {
+        "message": "OTP Verified",
+        "code": 101
+    }
+    return json.dumps(responsed)
+
+@app.route('/resendotp',methods=['POST'])
+def resend():
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    new_otp = random.randint(100000, 999999)
+    res = request.get_json()
+    emailed = res.get('email')
+    password = "icrjkrmrzmfhkalr"
+    server.login("jatindua2001@gmail.com", password)
+    body = "Dear" + "," + "\n" + "\n" + "your OTP is " + str(new_otp) + "."
+    subject = "OTP verification using python"
+    message = f'subject:{subject}\n\n{body}'
+    server.sendmail("jatindua2001@gmail.com", emailed, message)
+    responsed = {
+        "message": "Otp has been Sent to your email id",
+        "code": 101
+    }
+    server.quit()
+    return json.dumps(responsed)
+
 
 @app.route('/sendotp', methods=['POST'])
 def otp():
