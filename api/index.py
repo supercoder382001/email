@@ -2,6 +2,7 @@ import random
 import smtplib
 import json
 from flask import Flask, request
+import requests
 
 app = Flask(__name__)
 @app.route('/')
@@ -91,12 +92,12 @@ def otp():
 def emailverify():
     res=request.get_json()
     email=res.get('email')
-    url='https://zmvjylvafmgqpxqtrblc.supabase.co/rest/v1/rpc/CheckUser'
-    data={ "email": email }
-    headers={
+    url = 'https://zmvjylvafmgqpxqtrblc.supabase.co/rest/v1/rpc/CheckUser'
+    data = { "email": email }
+    headers = {
         "Content-Type": "application/json",
         "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M",
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M"
     }
-    response=request.post(url,json=data, headers=headers)
+    response=requests.post(url,json=data, headers=headers)
     print(response.content)
