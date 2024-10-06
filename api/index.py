@@ -90,7 +90,19 @@ def otp():
         "code": 101
     }
     server.quit()
-    return json.dumps(responsed)
+    res=request.get_json()
+    email=res.get('email')
+    otp=res.get('otp')
+    url = 'https://zmvjylvafmgqpxqtrblc.supabase.co/rest/v1/rpc/sendotp'
+    data = {"em": email, "ot": otp}
+    headers = {
+        "Content-Type": "application/json",
+        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M"
+    }
+    response = requests.post(url, json=data, headers=headers)
+    if (response.content.code==101):
+        return json.dumps(responsed)
 
 @app.route('/verifyemail',methods=['POST'])
 def emailverify():
