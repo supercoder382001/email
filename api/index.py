@@ -42,7 +42,7 @@ def verify():
     email=res.get('email')
     otp=res.get('otp')
     url = 'https://zmvjylvafmgqpxqtrblc.supabase.co/rest/v1/rpc/verifyotp'
-    data = {"email": email, "otp": otp}
+    data = {"em": email, "otps": otp}
     headers = {
         "Content-Type": "application/json",
         "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M",
