@@ -101,7 +101,7 @@ def otp():
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inptdmp5bHZhZm1ncXB4cXRyYmxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM0ODk4MTIsImV4cCI6MjAzOTA2NTgxMn0.-qK5cu9zPoVtcpGAf14-XuJ55SMYXpfpXXgp6lz-Z4M"
     }
     response = requests.post(url, json=data, headers=headers)
-    if (response.content['code']==101):
+    if (response.content["code"]==101):
         return json.dumps(responsed)
 
 @app.route('/verifyemail',methods=['POST'])
